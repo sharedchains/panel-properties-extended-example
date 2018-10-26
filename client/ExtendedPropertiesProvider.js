@@ -4,7 +4,6 @@ var inherits = require('inherits');
 
 var PropertiesActivator = require('bpmn-js-properties-panel/lib/PropertiesActivator');
 
-var CamundaPropertiesProvider = require('bpmn-js-properties-panel/lib/provider/camunda/CamundaPropertiesProvider');
 var magicModdle = require('./descriptors/magic.json'),
   camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
@@ -28,9 +27,10 @@ function createMagicTabGroups(element, elementRegistry) {
   ];
 }
 
-function MagicPropertiesProvider(eventBus, bpmnFactory, elementRegistry, elementTemplates, translate, propertiesProvider) {
+function MagicPropertiesProvider(eventBus, bpmnFactory, elementRegistry, propertiesProvider) {
   PropertiesActivator.call(this, eventBus);
 
+  // Extend the injected existing properties provider
   let camundaGetTabs = propertiesProvider.getTabs;
   propertiesProvider.getTabs = function (element) {
     // The "magic" tab
@@ -40,6 +40,7 @@ function MagicPropertiesProvider(eventBus, bpmnFactory, elementRegistry, element
       groups: createMagicTabGroups(element, elementRegistry)
     };
 
+    // get the current tab array
     var array = camundaGetTabs(element);
     array.push(magicTab);
     return array;
@@ -50,8 +51,6 @@ MagicPropertiesProvider.$inject = [
   'eventBus',
   'bpmnFactory',
   'elementRegistry',
-  'elementTemplates',
-  'translate',
   'propertiesProvider'
 ];
 
