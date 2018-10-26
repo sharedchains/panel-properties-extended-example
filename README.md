@@ -37,7 +37,7 @@ Let us look into all the necessary steps in detail.
 The first step to a custom property is to create your own `PropertiesProvider`, extending it from the modeler.
 The provider defines which properties are available and how they are organized in the panel using tabs, groups and input elements.
 
-We created the [`MagicPropertiesProvider`](app/provider/magic/MagicPropertiesProvider.js) which exposes all basic BPMN properties (via a "general" tab) as well as the "magic" tab.
+We created the [`MagicPropertiesProvider`](client/ExtendedPropertiesProvider.js) which exposes all basic BPMN properties (via a "general" tab) as well as the "magic" tab.
 
 ```javascript
 function MagicPropertiesProvider(eventBus, bpmnFactory, elementRegistry, propertiesProvider) {
@@ -104,7 +104,7 @@ function createMagicTabGroups(element, elementRegistry) {
 
 ### Define an Entry
 
-The "spell" entry is defined in [`SpellProps`](app/provider/magic/parts/SpellProps.js). We reuse [`EntryFactory#textField`](https://github.com/bpmn-io/bpmn-js-properties-panel/blob/master/lib/factory/EntryFactory.js#L79) to create a text field for the property. Note that we make sure that the entry is shown if a start event is selected:
+The "spell" entry is defined in [`SpellProps`](client/parts/SpellProps.js). We reuse [`EntryFactory#textField`](https://github.com/bpmn-io/bpmn-js-properties-panel/blob/master/lib/factory/EntryFactory.js#L79) to create a text field for the property. Note that we make sure that the entry is shown if a start event is selected:
 
 ```javascript
 var entryFactory = require('bpmn-js-properties-panel/lib/factory/EntryFactory');
@@ -131,7 +131,7 @@ To get a better understand of the lifecycle of updating elements and the propert
 
 ### Create a Moddle Extension
 
-The second step to create a custom property is to create a moddle extension so that moddle is aware of our new property "spell". This is important for moddle to write and read BPMN XML containing custom properties. The extension is basically a json descriptor file [magic.json](app/descriptors/magic.json) containing a definition of `bpmn:StartEvent#spell`:
+The second step to create a custom property is to create a moddle extension so that moddle is aware of our new property "spell". This is important for moddle to write and read BPMN XML containing custom properties. The extension is basically a json descriptor file [magic.json](client/descriptors/magic.json) containing a definition of `bpmn:StartEvent#spell`:
 
 ```javascript
 {
