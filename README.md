@@ -183,20 +183,36 @@ In this file we define the new type `BewitchesStartEvent` which extends the type
 To ship our custom extension with the properties panel we have to register both the moddle extension and the properties provider when registering the modeler plugin.
 
 ```javascript
-let registerBpmnJSPlugin = require('./camunda-plugin-helper').registerBpmnJSPlugin;
-let registerBpmnJSModdle = require('./camunda-plugin-helper').registerBpmnJSModdle;
+import {
+  registerBpmnJSPlugin,
+  registerBpmnJSModdleExtension
+} from 'camunda-modeler-plugin-helpers';
 
 var extendedPropertiesProvider = require('./ExtendedPropertiesProvider');
 var magicModdle = require('./descriptors/magic.json');
 
 registerBpmnJSPlugin(extendedPropertiesProvider);
-registerBpmnJSModdle('magic', magicModdle);
+registerBpmnJSModdleExtension( magicModdle);
 ```
-
 
 ## Running the Example
 
 Put the folder into the plugins directory relative to your Camunda Modeler installation directory. You can now use your plugin!
+
+## Building the example
+
+If you anyway want to build again the example, you can run the command
+
+```
+npm run build
+```
+to compile the plugin using browserify, OR
+```
+npm run bundle
+```
+to compile the plugin using webpack
+
+I kept both the scripts to make them available to everyone. Cheers!
 
 ## License
 
